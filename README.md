@@ -22,7 +22,8 @@ Download the ZIPs from the [latest release](../../releases/latest):
 
 ## Use
 - Just ask: *"Who manages 100 King William St, Adelaide SA 5000? We need site access for a comms room survey."*
-- Or, in Claude Code: `/property-contacts <address> [businesses|manager|both] [purpose]`
+- Or, in Claude Code: `/property-contacts <address> [businesses|manager|both] [purpose]` (full name: `/property-contacts:property-contacts`)
+- Restart Claude Code after installing or updating so the plugin loads.
 - Batches: paste a list or CSV of addresses and ask for the CSV output.
 
 Needs a web research tool (web search/fetch, a browser, or Bright Data / Firecrawl). Without one, the skill returns a manual search plan instead of guessing.
