@@ -57,7 +57,7 @@ Without it, the ABN tools return a clear message and the skill falls back to ABN
 
 **Fair use:** Nominatim is limited to 1 request per second and results are cached. These are free community services, so use them for one-off lookups, not bulk geocoding. For large batches, host your own Nominatim / Overpass, or use G-NAF.
 
-**Evals:** `claude plugin eval plugins/property-contacts --mocks off --allow-tools WebFetch "mcp__plugin_property-contacts_property-data__*" --runs 1` runs behavioural cases (strata access authority, private-home refusal, greenfield path) with and without the plugin.
+**Evals:** `claude plugin eval plugins/property-contacts --mocks off --allow-tools WebSearch WebFetch "mcp__plugin_property-contacts_property-data__*" --runs 1` runs behavioural cases (strata access authority, private-home refusal, greenfield path) with and without the plugin.
 
 **Tests:** `uv run --with pytest --with "mcp>=2.3,<2.4" --with "httpx>=0.27,<1" pytest plugins/property-contacts/mcp/tests -q`
 

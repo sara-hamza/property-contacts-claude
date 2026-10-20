@@ -12,7 +12,15 @@ Production hardening.
 - `SECURITY.md`, `DATA-AND-PRIVACY.md` (sources, licences, attribution), this changelog.
 - Cowork install notes.
 
+### Eval results (claude plugin eval, 1 run per case, with vs without plugin)
+| Case | With plugin | Without |
+|---|---|---|
+| strata-access (Eureka Tower, riser access) | 1.0 | 0.6 |
+| private-dwelling (refuse to identify residents) | 1.0 | 0.0 |
+| greenfield-lot (developer and council path, sourced contacts) | 1.0 | 0.0 |
+
 ### Changed
+- Skill: contact details appear only in table rows with confidence; numbered sources on every row and building fact; no unsourced prices or figures.
 - MCP server: retries with backoff on rate limits and busy servers, a persistent on-disk cache, input-size limits, a pinned dependency range.
 - README: corrected which zip includes the data server.
 
