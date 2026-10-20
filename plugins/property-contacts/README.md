@@ -1,7 +1,7 @@
 # Property & Building Contacts (Claude plugin)
 
 Give Claude an address and it returns:
-- **Part A:** businesses at the address (name, ABN, phone, email/contact form, website).
+- **Part A:** businesses at the address (name, phone, email/contact form, website).
 - **Part B:** building management (onsite building manager, strata / owners corporation manager, commercial property manager, leasing agent, facilities manager).
 
 Every contact is cited and scored High / Medium / Low confidence. The plugin also recommends who to contact first and lists the gaps.

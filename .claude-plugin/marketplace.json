@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Claude plugin: give it an address and it finds the businesses there and the building / strata / facilities manager, with sources and confidence.",
-    "version": "1.2.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "property-contacts",
       "source": "./plugins/property-contacts",
       "description": "Address-to-contacts research skill plus /property-contacts command. Handles commercial towers, strata and mixed-use buildings, and greenfield estates. Public, role-based business contacts only.",
-      "version": "1.2.0",
+      "version": "2.0.0",
       "category": "productivity",
       "keywords": ["address", "building manager", "strata", "owners corporation", "facilities", "greenfield", "site access", "australia"]
     }

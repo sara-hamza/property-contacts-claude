@@ -10,7 +10,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import property_data_server as s  # noqa: E402
 
-GUID = "11111111-2222-3333-4444-555555555555"
+SECRET = "ops-team@example.com"
 
 
 @pytest.fixture(autouse=True)
@@ -68,72 +68,22 @@ def test_same_number(osm, wanted, same):
     assert s._same_number(osm, wanted) is same
 
 
-# ---------------------------------------------------------------- ABN selection
-
-def _m(abn, name, score, pc="5000", st="SA", status="Active"):
-    return {"Abn": abn, "Name": name, "Score": score, "Postcode": pc, "State": st, "AbnStatus": status, "IsCurrent": True}
-
-
-def test_single_match_after_postcode_filter_is_assigned():
-    ms = [_m("1", "DW Fox Tucker", 100), _m("2", "DW Fox", 98, pc="4207", st="QLD")]
-    chosen, reason = s.choose_abn_match(ms, "5000", None)
-    assert chosen["Abn"] == "1" and reason == "single safe match"
-
-
-def test_many_similar_matches_are_ambiguous():
-    chosen, reason = s.choose_abn_match([_m(str(i), f"Walker {i}", 97 - i) for i in range(6)], None, None)
-    assert chosen is None and reason.startswith("ambiguous")
-
-
-def test_clear_winner_assigned():
-    chosen, _ = s.choose_abn_match([_m("1", "Exact Pty Ltd", 100), _m("2", "Exact-ish", 80)], None, None)
-    assert chosen["Abn"] == "1"
-
-
-def test_cancelled_ignored():
-    chosen, _ = s.choose_abn_match([_m("1", "Old Co", 100, status="Cancelled"), _m("2", "Old Co", 99)], None, None)
-    assert chosen["Abn"] == "2"
-
-
-def test_lone_weak_match_is_not_assigned():
-    chosen, reason = s.choose_abn_match([_m("1", "Vaguely Similar", 40)], None, None)
-    assert chosen is None and "too weak" in reason
-
-
-def test_postcode_filter_is_hard():
-    chosen, reason = s.choose_abn_match([_m("1", "Acme", 100, pc="4000", st="QLD")], "5000", None)
-    assert chosen is None and "postcode" in reason
-
-
-def test_duplicate_rows_for_one_abn_are_merged():
-    ms = [_m("1", "Acme Pty Ltd", 100), _m("1", "Acme Trading", 99), _m("1", "ACME", 97)]
-    chosen, _ = s.choose_abn_match(ms, None, None)
-    assert chosen["Abn"] == "1"
-
-
-def test_all_cancelled_has_its_own_reason():
-    chosen, reason = s.choose_abn_match([_m("1", "Gone", 100, status="Cancelled")], None, None)
-    assert chosen is None and reason == "no active matches"
-
-
 # ---------------------------------------------------------------- safety
 
-def test_abr_without_guid_explains(monkeypatch):
-    monkeypatch.delenv("ABR_GUID", raising=False)
-    r = s.abn_search("Anything")
-    assert r["assigned"] is None and "ABR_GUID" in r["error"]
-
-
-def test_guid_never_leaks_in_errors(monkeypatch):
-    monkeypatch.setenv("ABR_GUID", GUID)
+def test_secret_never_leaks_in_errors(monkeypatch):
+    monkeypatch.setenv("NOMINATIM_EMAIL", SECRET)
 
     def boom(method, url, **kw):
         req = httpx.Request(method, url, params=kw.get("params"))
         raise httpx.HTTPStatusError(f"500 for url {req.url}", request=req, response=httpx.Response(500, request=req))
 
     monkeypatch.setattr(s, "_request", boom)
-    for r in (s.abn_search("Acme"), s.abn_details("82860714100")):
-        assert GUID not in str(r) and "HTTP 500" in r["error"]
+    r = s.normalise_address("100 King William St, Adelaide SA 5000")
+    assert SECRET not in str(r) and "HTTP 500" in r["error"]
+
+
+def test_no_abr_tools():
+    assert not hasattr(s, "abn_search") and not hasattr(s, "abn_details")
 
 
 def test_error_and_success_schemas_match(monkeypatch):

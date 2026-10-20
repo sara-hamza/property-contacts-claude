@@ -1,4 +1,4 @@
-<!-- Worked example from a real test run (2026-10-20). Individual names replaced by roles. Contact details may be out of date. Use it for format and reasoning, not as data. -->
+<!-- Worked example from a real test run (2026-10-20). Individual names replaced by roles. Contact details may be out of date. Use it for format and reasoning, not as data. Since v2.0 ABNs are not looked up by default, so ignore the ABN columns. -->
 # Property & Building Contacts: 100 King William St, Adelaide SA 5000
 
 ## Address summary

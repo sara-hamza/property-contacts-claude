@@ -13,14 +13,14 @@ Start with one or two sentences that give the answer: who to contact first, and 
 - **Researched on:** <YYYY-MM-DD>
 
 ## Part A: Businesses at this address
-| # | Business (trading / legal) | ABN & status | Unit/Level | Category | Phone | Email / contact form | Website | Hours | Confidence | Notes / flags | Sources |
-|---|---|---|---|---|---|---|---|---|---|---|---|
+| # | Business | Unit/Level | Category | Phone | Email / contact form | Website | Hours | Confidence | Notes / flags | Sources |
+|---|---|---|---|---|---|---|---|---|---|---|
 
-Flags: `next door` · `snippet only` · `OSM only` · `ambiguous, not assigned` · `Cancelled ABN` · `Permanently closed`
+Flags: `next door` · `snippet only` · `OSM only` · `Permanently closed` · `Moved`
 
 ## Part B: Building management
-| # | Part | Role | Company | ABN | Published contact name & title | Phone | Email / enquiry form | Office address | Confidence | Source last seen | Notes / flags | Sources |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| # | Part | Role | Company | Published contact name & title | Phone | Email / enquiry form | Office address | Confidence | Source last seen | Notes / flags | Sources |
+|---|---|---|---|---|---|---|---|---|---|---|---|
 
 Roles: Onsite building / operations manager · Concierge · Strata / owners corporation / body corporate manager · Commercial property manager · Facilities manager · Leasing agent · Owner / asset manager · Developer project team · Developer sales centre · Builders' portal / design review · Council · Community corporation.
 
@@ -40,4 +40,4 @@ Map data © OpenStreetMap contributors, where used.
 
 ---
 ### CSV columns (batch mode)
-`input_address,confirmed_address,component,section,role_or_category,organisation,abn,abn_status,unit_level,contact_name,phone,email_or_form,website,confidence,flags,source_urls,source_date,notes`
+`input_address,confirmed_address,component,section,role_or_category,organisation,unit_level,contact_name,phone,email_or_form,website,confidence,flags,source_urls,source_date,notes`

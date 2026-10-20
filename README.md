@@ -4,7 +4,7 @@
 
 Give Claude an address. It returns:
 
-- **Part A: businesses at the address.** Name, ABN and status, phone, email or contact form, website.
+- **Part A: businesses at the address.** Name, phone, email or contact form, website, hours.
 - **Part B: who manages the property.** Onsite building manager, strata / owners corporation managing agent, commercial property manager, leasing agent, facilities manager or, for greenfield estates, the developer and council.
 
 Every contact comes with a **source link, date and High / Medium / Low confidence**. The report also gives a recommended first contact for your purpose (e.g. site access) and lists the gaps, each with a way to confirm it. Built for Australian addresses (ABN Lookup, NSW Strata Hub, state title registers); the method works elsewhere with local registers.
@@ -34,26 +34,18 @@ Download the ZIPs from the [latest release](../../releases/latest):
 Needs a web research tool (web search/fetch, a browser, or Bright Data / Firecrawl). Without one, the skill returns a manual search plan instead of guessing.
 
 ## Built-in data tools (local MCP server)
-The plugin includes a small **local MCP server** (`property-data`), which starts automatically in Claude Code when the plugin is enabled. It gives the skill structured, read-only lookups, so it does fewer web searches:
+The plugin includes a small **local MCP server** (`property-data`), which starts automatically in Claude Code when the plugin is enabled. It gives the skill structured, read-only lookups, so it does fewer web searches. **No API keys or registration needed.**
 
-| Tool | What it returns | Data source | Key needed |
-|---|---|---|---|
-| `normalise_address` | Lot / unit / level / number-range parsing, geocoded candidates with building name and coordinates, warnings (lot numbers, number ranges, approximate matches) | OpenStreetMap Nominatim | No |
-| `businesses_at` | Named businesses mapped at a point, with neighbours flagged; phone, website and hours where mapped | OpenStreetMap via Overpass, falling back to Photon | No |
-| `abn_search` | ABR name matches plus a single **safe** match, or "ambiguous" | ABR web services | `ABR_GUID` |
-| `abn_details` | Entity name, status, type, GST, location, business names | ABR web services | `ABR_GUID` |
+| Tool | What it returns | Data source |
+|---|---|---|
+| `normalise_address` | Lot / unit / level / number-range parsing, geocoded candidates with building name and coordinates, warnings (lot numbers, number ranges, approximate matches) | OpenStreetMap Nominatim |
+| `businesses_at` | Named businesses mapped at a point, with neighbours flagged; phone, website and hours where mapped | OpenStreetMap via Overpass, falling back to Photon |
 
 **Requirements:** [`uv`](https://docs.astral.sh/uv/). The server declares its own Python dependencies and `uv` installs them on first run, so there's no virtualenv to manage.
 
-**ABN tools:** register free for an ABR web services GUID at https://abr.business.gov.au/Tools/WebServices, then add it to your shell profile and restart Claude Code:
-```bash
-export ABR_GUID="your-guid-here"
-```
-Without it, the ABN tools return a clear message and the skill falls back to ABN Lookup on the web.
-
 **Optional:** `NOMINATIM_EMAIL` (a contact address sent to Nominatim, per its usage policy). `OVERPASS_URLS` (comma-separated Overpass servers, if you run your own).
 
-**Speed:** with `businesses_at`, the first lookup in a session can take about 15 seconds while the server works out which public Overpass servers are up (they're often busy). Servers that fail are skipped for 15 minutes, and later lookups take about 1 second. Results are cached on disk (geocodes 30 days, businesses 7 days, ABN results 1 day) in `~/.cache/property-contacts-claude` (override with `PROPERTY_DATA_CACHE_DIR`).
+**Speed:** with `businesses_at`, the first lookup in a session can take about 15 seconds while the server works out which public Overpass servers are up (they're often busy). Servers that fail are skipped for 15 minutes, and later lookups take about 1 second. Results are cached on disk (geocodes 30 days, businesses 7 days) in `~/.cache/property-contacts-claude` (override with `PROPERTY_DATA_CACHE_DIR`).
 
 **Fair use:** Nominatim is limited to 1 request per second and results are cached. These are free community services, so use them for one-off lookups, not bulk geocoding. For large batches, host your own Nominatim / Overpass, or use G-NAF.
 
@@ -85,7 +77,7 @@ Worked examples, one per type: [`examples/`](examples/).
 
 ## Boundaries
 - **Public, role-based business contacts only.** No personal mobiles, residents, owners, lot purchasers or people-search / data-broker sources.
-- **No guessing.** Email formats, phone numbers, ABNs and strata plan numbers are never guessed. Anything not found is marked *Not found*, with a next step.
+- **No guessing.** Email formats, phone numbers and strata plan numbers are never guessed. Anything not found is marked *Not found*, with a next step.
 - **Read-only.** It never calls, emails, submits forms or buys register searches for you.
 - **Untrusted content.** Instructions embedded in web pages are ignored.
 

@@ -2,6 +2,14 @@
 
 All notable changes to this plugin are listed here. Versions follow [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-10-20
+### Removed (breaking)
+- ABR integration: the `abn_search` and `abn_details` tools and the `ABR_GUID` setting. The plugin now needs **no API keys or registration**.
+- The mandatory ABN check. ABNs are looked up only if the user asks, on the public ABN Lookup website, and only for a single clear match.
+
+### Changed
+- Report template: ABN columns removed from Part A and Part B and from the CSV.
+
 ## [1.2.0] - 2026-10-20
 Production hardening.
 

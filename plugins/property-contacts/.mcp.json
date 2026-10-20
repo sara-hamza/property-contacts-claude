@@ -2,9 +2,13 @@
   "mcpServers": {
     "property-data": {
       "command": "uv",
-      "args": ["run", "--quiet", "--script", "${CLAUDE_PLUGIN_ROOT}/mcp/property_data_server.py"],
+      "args": [
+        "run",
+        "--quiet",
+        "--script",
+        "${CLAUDE_PLUGIN_ROOT}/mcp/property_data_server.py"
+      ],
       "env": {
-        "ABR_GUID": "${ABR_GUID:-}",
         "NOMINATIM_EMAIL": "${NOMINATIM_EMAIL:-}"
       }
     }
