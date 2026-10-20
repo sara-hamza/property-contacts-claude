@@ -3,6 +3,7 @@
 Give Claude an address and it returns:
 - **Part A:** businesses at the address (name, phone, email/contact form, website).
 - **Part B:** building management (onsite building manager, strata / owners corporation manager, commercial property manager, leasing agent, facilities manager).
+- **Part C:** site access and security (security desk, after-hours line, loading dock, induction), with no security-sensitive details.
 
 Every contact is cited and scored High / Medium / Low confidence. The plugin also recommends who to contact first and lists the gaps.
 

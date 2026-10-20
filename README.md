@@ -6,8 +6,9 @@ Give Claude an address. It returns:
 
 - **Part A: businesses at the address.** Name, phone, email or contact form, website, hours.
 - **Part B: who manages the property.** Onsite building manager, strata / owners corporation managing agent, commercial property manager, leasing agent, facilities manager or, for greenfield estates, the developer and council.
+- **Part C: how to get on site.** Onsite security / control room, concierge, after-hours line, loading dock booking, contractor induction and sign-in. No security-sensitive details (rosters, camera locations, codes).
 
-Every contact comes with a **source link, date and High / Medium / Low confidence**. The report also gives a recommended first contact for your purpose (e.g. site access) and lists the gaps, each with a way to confirm it. Built for Australian addresses (ABN Lookup, NSW Strata Hub, state title registers); the method works elsewhere with local registers.
+Every contact comes with a **source link, date and High / Medium / Low confidence**. The report also gives a recommended first contact for your purpose (e.g. site access) and lists the gaps, each with a way to confirm it. Built for Australian addresses (NSW Strata Hub, Victoria's owners corporation manager register, state title registers); the method works elsewhere with local registers.
 
 ## Install
 
@@ -49,7 +50,7 @@ The plugin includes a small **local MCP server** (`property-data`), which starts
 
 **Fair use:** Nominatim is limited to 1 request per second and results are cached. These are free community services, so use them for one-off lookups, not bulk geocoding. For large batches, host your own Nominatim / Overpass, or use G-NAF.
 
-**Evals:** `claude plugin eval plugins/property-contacts --mocks off --allow-tools WebSearch WebFetch "mcp__plugin_property-contacts_property-data__*" --runs 1` runs behavioural cases (strata access authority, private-home refusal, greenfield path) with and without the plugin.
+**Evals:** `claude plugin eval plugins/property-contacts --mocks off --allow-tools WebSearch WebFetch "mcp__plugin_property-contacts_property-data__*" --runs 1` runs behavioural cases (strata access authority, private-home refusal, greenfield path, security access route, declining guard rosters) with and without the plugin.
 
 **Tests:** `uv run --with pytest --with "mcp>=2.3,<2.4" --with "httpx>=0.27,<1" pytest plugins/property-contacts/mcp/tests -q`
 

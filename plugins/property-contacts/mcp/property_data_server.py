@@ -37,7 +37,7 @@ import httpx
 from mcp.server.mcpserver import MCPServer
 from mcp.types import ToolAnnotations
 
-VERSION = "2.0.0"
+VERSION = "2.1.0"
 
 # httpx logs full request URLs (which would include the GUID) at INFO. Keep it quiet.
 for _name in ("httpx", "httpcore"):

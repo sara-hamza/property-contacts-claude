@@ -22,10 +22,18 @@ Flags: `next door` · `snippet only` · `OSM only` · `Permanently closed` · `M
 | # | Part | Role | Company | Published contact name & title | Phone | Email / enquiry form | Office address | Confidence | Source last seen | Notes / flags | Sources |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 
-Roles: Onsite building / operations manager · Concierge · Strata / owners corporation / body corporate manager · Commercial property manager · Facilities manager · Leasing agent · Owner / asset manager · Developer project team · Developer sales centre · Builders' portal / design review · Council · Community corporation.
+Roles: Onsite building / operations manager · Strata / owners corporation / body corporate manager · Commercial property manager · Facilities manager · Leasing agent · Owner / asset manager · Developer project team · Developer sales centre · Builders' portal / design review · Council · Community corporation.
+
+## Part C: Site access and security
+| # | Item | Detail | Contact (phone / email / form) | Hours | Confidence | Notes / flags | Sources |
+|---|---|---|---|---|---|---|---|
+
+Items: Onsite security / security control room · Concierge · After-hours / emergency line · Loading dock & booking · Contractor induction (link) · Sign-in / access cards / escort · Usual paperwork (insurance, SWMS) · Contracted security provider (only if publicly named for this site).
+
+Never include rosters, shift times, camera locations, patrol routes, codes or access weak points.
 
 ## Recommended first contact
-<Who to contact first for the stated purpose (access authority first, then confidence), and why. A backup contact. Any induction or paperwork they're likely to need.>
+<Who to contact first for the stated purpose (access authority first, then confidence), and why. A backup contact. Then the access steps on the day, from Part C, e.g. "book via B1, complete the induction (C4), sign in at the security desk (C1)".>
 
 ## Gaps and how to confirm
 - <What wasn't found> → <exact next step, e.g. "Landata OC search for PS437659 (paid, user to order)">
@@ -40,4 +48,4 @@ Map data © OpenStreetMap contributors, where used.
 
 ---
 ### CSV columns (batch mode)
-`input_address,confirmed_address,component,section,role_or_category,organisation,unit_level,contact_name,phone,email_or_form,website,confidence,flags,source_urls,source_date,notes`
+`input_address,confirmed_address,component,section (A/B/C),role_or_category,organisation,unit_level,contact_name,phone,email_or_form,website,confidence,flags,source_urls,source_date,notes`

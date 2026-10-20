@@ -10,4 +10,11 @@
 | **Greenfield lot / new estate** | "Lot 123", estate name, sales centre | Developer's project team; council for verges and streets | Developer's state office (civil works) → sales centre → builders' portal → council | Lot numbers aren't street numbers; geocoders return the suburb; **never research the lot purchaser** |
 | **Single private dwelling** | House, no businesses, no strata | Out of scope | Stop. Point to council and utility routes | Don't identify residents or owners |
 
+**Site security by type** (Part C)
+- **Commercial towers:** usually a security control room or desk on the ground floor; contractor sign-in and induction through the facilities manager.
+- **Residential strata:** concierge or building manager; dock bookings and contractor inductions are often on the resident portal.
+- **Retail centres:** centre management plus a security control room; after-hours works need a permit from centre management.
+- **Industrial parks:** often patrol-based, with no desk; access goes through the owner or estate manager.
+- **Greenfield:** the developer's site team or head contractor runs the gate and site inductions.
+
 **Split addresses** (number ranges like 96–100, corner sites): tenants may use either number, so search all variants.
