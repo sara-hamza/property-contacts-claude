@@ -1,0 +1,10 @@
+{
+  "name": "property-contacts",
+  "displayName": "Property & Building Contacts",
+  "version": "1.0.0",
+  "description": "Give Claude an address and it researches the businesses at that address and the building / strata / facilities manager, returning publicly listed contact details with sources and confidence.",
+  "author": {
+    "name": "Community prototype — not affiliated with Opticomm"
+  },
+  "keywords": ["address", "building manager", "strata", "owners corporation", "facilities", "business contacts", "site access"]
+}
