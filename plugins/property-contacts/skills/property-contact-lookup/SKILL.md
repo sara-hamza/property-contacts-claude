@@ -26,11 +26,20 @@ Use whatever web research is available: WebSearch / WebFetch, the built-in brows
    - **Mixed-use precincts often split one building across several addresses**, e.g. the retail podium on the main street and each residential tower on a side street. Unit prefixes in sale or rental listings (E/W, A/B) reveal the towers. Report each component with its own manager. Ask whether a Building Management Statement or committee covers the whole site.
 2. **Find businesses at the address (Part A).**
    - Search the map/business listings for the address. Search `"<street number> <street name>" <suburb>`, including the building name and unit/level variants.
-   - Cross-check each business on its own website (contact page), on Yellow Pages / True Local, and on **ABN Lookup** (abr.business.gov.au) for its legal name, ABN and status. Mark a business *Cancelled ABN* or *Permanently closed* rather than dropping it silently.
+   - Cross-check each business on its own website (contact page), on Yellow Pages / True Local, and on **ABN Lookup** (abr.business.gov.au) for its legal name, ABN and status. **This is required for every business and every managing company in Part B.** If several similar entities match, write "ambiguous, not assigned" rather than picking one. Mark a business *Cancelled ABN* or *Permanently closed* rather than dropping it silently.
    - For each business record: name, trading/legal name, ABN, unit/level, category, main phone, general email or contact form, website, opening hours if listed, source URL(s).
 3. **Find the building manager (Part B).** Work down this list and stop when you have a confirmed manager plus a backup:
    1. The building's own website, or the onsite building management office.
-   2. Strata / owners corporation / body corporate manager. Search `"<building name or address>" strata` / `owners corporation` / `body corporate` / `strata plan`. Check the strata management company's portfolio pages. NSW: Strata Hub's public search. Other states: point the user to the official title or strata register search (paid), and don't claim a result you haven't seen.
+   2. Strata / owners corporation / body corporate manager. Search `"<building name or address>" strata` / `owners corporation` / `body corporate` / `strata plan`. Check the strata management company's portfolio pages. Use the state register guide below, and don't claim a result you haven't seen.
+      | State | Free check | Paid / definitive |
+      |---|---|---|
+      | NSW | NSW Fair Trading **Strata Hub** public search (scheme, managing agent); StrataChecks mirrors it | NSW LRS strata plan / title search |
+      | VIC (called "owners corporation") | Business Licensing Authority / Consumer Affairs Victoria **public register of owners corporation managers**: confirms a named manager is registered and gives its business contact | Landata owners corporation search / certificate |
+      | QLD (called "body corporate") | Body corporate manager's own portfolio pages | Titles Queensland community management statement (CMS) search |
+      | SA (strata or community corporation) | Manager's portfolio pages | Land Services SA strata / community plan search |
+      | WA, TAS, ACT, NT | Manager's portfolio pages; check whether the state licenses managers and publishes a register | State land titles office strata plan search |
+      Register names change, so confirm the current one before citing it.
+      - For residential strata, **the owners corporation manager (or the onsite building manager they appoint) is the access authority** for common property such as risers, plant rooms and the roof. Rank them first for access purposes, even at Medium or Low confidence, with a tenant or concierge as the backup route, never ahead of them.
    3. Commercial property manager or leasing agent. Look at recent sale or lease listings for the address (realestate.com.au, commercialrealestate.com.au, domain.com.au) and the agency named on them. Check the owner or fund manager's asset page.
    4. Facilities management company, if named in public tenders, council DAs or the owner's site.
    5. Council records, such as a development application naming the owner's representative. Use this for leads only.
@@ -53,6 +62,7 @@ For batches: one row per address-contact pair, with a CSV download if requested 
 
 ## Operating boundaries — mandatory
 - **Business and role contacts only.** Return phone numbers, emails and names only as published by the business or management company for that role. Never return personal mobiles, home addresses, residents' or owners' names, or data from people-search / data-broker sites. Never compile profiles of private individuals.
+- **Respect anti-scraping choices.** If a site hides an email address behind spam protection or obfuscation, don't decode it. Give the contact page URL and the phone number instead.
 - **No invention.** If something isn't found, write *Not found* and the next step. Never guess email formats (e.g. firstname@company), phone numbers or strata plan numbers.
 - **Cite everything.** Every contact detail needs a source URL. Label stale sources.
 - **Read-only.** Never call, email, submit enquiry forms, or create accounts for paid registers on the user's behalf. Offer a draft message instead.
