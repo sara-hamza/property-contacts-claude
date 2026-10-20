@@ -3,3 +3,5 @@
 dist/
 __pycache__/
 .pytest_cache/
+plugins/property-contacts/evals/results/
+evals/results/

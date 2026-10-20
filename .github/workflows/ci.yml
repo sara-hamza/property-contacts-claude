@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Validate JSON manifests
+        run: |
+          for f in .claude-plugin/marketplace.json \
+                   plugins/property-contacts/.claude-plugin/plugin.json \
+                   plugins/property-contacts/.mcp.json; do
+            python3 -m json.tool "$f" > /dev/null && echo "ok  $f"
+          done
+
+      - name: Versions match
+        run: |
+          p=$(python3 -c "import json;print(json.load(open('plugins/property-contacts/.claude-plugin/plugin.json'))['version'])")
+          m=$(python3 -c "import json;print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])")
+          s=$(grep -oE '^VERSION = "[0-9.]+"' plugins/property-contacts/mcp/property_data_server.py | cut -d'"' -f2)
+          echo "plugin=$p marketplace=$m server=$s"
+          test "$p" = "$m" && test "$p" = "$s"
+
+      - name: Skill frontmatter
+        run: |
+          f=plugins/property-contacts/skills/property-contact-lookup/SKILL.md
+          head -1 "$f" | grep -qx -- '---'
+          grep -q '^name: property-contact-lookup$' "$f"
+          grep -q '^description: ' "$f"
+
+      - name: Offline tests
+        run: uv run --with pytest --with "mcp>=2.3,<2.4" --with "httpx>=0.27,<1" pytest plugins/property-contacts/mcp/tests -q
+
+      - name: MCP server starts and lists tools (stdio)
+        run: uv run --with "mcp>=2.3,<2.4" python plugins/property-contacts/mcp/tests/smoke_stdio.py

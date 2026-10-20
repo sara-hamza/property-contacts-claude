@@ -1,5 +1,7 @@
 # Property & Building Contacts for Claude
 
+[![CI](https://github.com/sara-hamza/property-contacts-claude/actions/workflows/ci.yml/badge.svg)](https://github.com/sara-hamza/property-contacts-claude/actions/workflows/ci.yml)
+
 Give Claude an address. It returns:
 
 - **Part A: businesses at the address.** Name, ABN and status, phone, email or contact form, website.
@@ -14,6 +16,9 @@ Every contact comes with a **source link, date and High / Medium / Low confidenc
 /plugin marketplace add sara-hamza/property-contacts-claude
 /plugin install property-contacts@property-contacts-marketplace
 ```
+
+**Claude Cowork (desktop)**
+**Customize → Plugins → Add marketplace**, enter `sara-hamza/property-contacts-claude`, then install **property-contacts**. Or upload `property-contacts-plugin.zip`. In Cowork, run the command as `/property-contacts:property-contacts`.
 
 **Claude.ai: upload as a skill or plugin**
 Download the ZIPs from the [latest release](../../releases/latest):
@@ -48,11 +53,25 @@ Without it, the ABN tools return a clear message and the skill falls back to ABN
 
 **Optional:** `NOMINATIM_EMAIL` (a contact address sent to Nominatim, per its usage policy). `OVERPASS_URLS` (comma-separated Overpass servers, if you run your own).
 
+**Speed:** with `businesses_at`, the first lookup in a session can take about 15 seconds while the server works out which public Overpass servers are up (they're often busy). Servers that fail are skipped for 15 minutes, and later lookups take about 1 second. Results are cached on disk (geocodes 30 days, businesses 7 days, ABN results 1 day) in `~/.cache/property-contacts-claude` (override with `PROPERTY_DATA_CACHE_DIR`).
+
 **Fair use:** Nominatim is limited to 1 request per second and results are cached. These are free community services, so use them for one-off lookups, not bulk geocoding. For large batches, host your own Nominatim / Overpass, or use G-NAF.
 
-**Tests:** `uv run --with pytest --with "mcp>=2.3,<3" --with httpx pytest plugins/property-contacts/mcp/tests -q`
+**Evals:** `claude plugin eval plugins/property-contacts --mocks off --allow-tools WebFetch "mcp__plugin_property-contacts_property-data__*" --runs 1` runs behavioural cases (strata access authority, private-home refusal, greenfield path) with and without the plugin.
 
-Claude.ai uploads (zips) include the skill only; the local server runs in Claude Code.
+**Tests:** `uv run --with pytest --with "mcp>=2.3,<2.4" --with "httpx>=0.27,<1" pytest plugins/property-contacts/mcp/tests -q`
+
+**Which zip includes what:** `property-contacts-plugin.zip` contains the skill, the command **and** the data server. `property-contact-lookup-skill.zip` contains the skill only. The data server runs wherever local MCP servers can run (see Compatibility).
+
+## Compatibility
+| Feature | Claude Code | Cowork (local session) | Claude.ai chat |
+|---|---|---|---|
+| Skill (auto-triggers) | ✅ tested | ✅ documented | ✅ skill zip |
+| `/property-contacts` command | ✅ tested | ✅ as `/property-contacts:property-contacts` | — |
+| `property-data` MCP server | ✅ tested (needs `uv`) | ⚠️ not yet verified: runs only in local sessions, needs `uv` in the session VM, admins can disable local MCP | ❌ |
+| Web research fallback | ✅ | ✅ web search / browser | ✅ if web search is on |
+
+If the MCP server isn't available, the skill uses web research automatically. Results stay the same in kind; lookups are just slower.
 
 ## How it handles different properties
 | Property type | Who "manages" it | Typical route |
@@ -86,5 +105,8 @@ plugins/property-contacts/
 examples/            # three test-run reports
 ```
 
+## Data, privacy and security
+See [DATA-AND-PRIVACY.md](DATA-AND-PRIVACY.md) for sources, licences and **OpenStreetMap attribution**, and [SECURITY.md](SECURITY.md) for what the server can access and how to report issues. Release history: [CHANGELOG.md](CHANGELOG.md).
+
 ## License
-MIT
+MIT. Map data © OpenStreetMap contributors (ODbL).

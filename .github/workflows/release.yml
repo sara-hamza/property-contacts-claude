@@ -1,0 +1,38 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag matches plugin version
+        run: |
+          v=$(python3 -c "import json;print(json.load(open('plugins/property-contacts/.claude-plugin/plugin.json'))['version'])")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "tag ${GITHUB_REF_NAME} != plugin v$v"; exit 1; }
+
+      - name: Build zips
+        run: |
+          mkdir -p dist
+          (cd plugins/property-contacts && zip -qr -X ../../dist/property-contacts-plugin.zip . \
+             -x '*.DS_Store' '*__pycache__*' '*.pytest_cache*' 'mcp/tests/*' 'evals/*')
+          (cd plugins/property-contacts/skills && zip -qr -X ../../../dist/property-contact-lookup-skill.zip property-contact-lookup -x '*.DS_Store')
+          (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+
+      - name: Release notes from CHANGELOG
+        run: |
+          v="${GITHUB_REF_NAME#v}"
+          awk -v v="$v" '$0 ~ "^## \\[?"v"\\]?" {f=1; next} /^## / && f {exit} f' CHANGELOG.md > notes.md
+          test -s notes.md || echo "See CHANGELOG.md" > notes.md
+
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "${GITHUB_REF_NAME}" dist/* --title "${GITHUB_REF_NAME}" --notes-file notes.md --verify-tag
