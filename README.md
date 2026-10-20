@@ -28,6 +28,32 @@ Download the ZIPs from the [latest release](../../releases/latest):
 
 Needs a web research tool (web search/fetch, a browser, or Bright Data / Firecrawl). Without one, the skill returns a manual search plan instead of guessing.
 
+## Built-in data tools (local MCP server)
+The plugin includes a small **local MCP server** (`property-data`), which starts automatically in Claude Code when the plugin is enabled. It gives the skill structured, read-only lookups, so it does fewer web searches:
+
+| Tool | What it returns | Data source | Key needed |
+|---|---|---|---|
+| `normalise_address` | Lot / unit / level / number-range parsing, geocoded candidates with building name and coordinates, warnings (lot numbers, number ranges, approximate matches) | OpenStreetMap Nominatim | No |
+| `businesses_at` | Named businesses mapped at a point, with neighbours flagged; phone, website and hours where mapped | OpenStreetMap via Overpass, falling back to Photon | No |
+| `abn_search` | ABR name matches plus a single **safe** match, or "ambiguous" | ABR web services | `ABR_GUID` |
+| `abn_details` | Entity name, status, type, GST, location, business names | ABR web services | `ABR_GUID` |
+
+**Requirements:** [`uv`](https://docs.astral.sh/uv/). The server declares its own Python dependencies and `uv` installs them on first run, so there's no virtualenv to manage.
+
+**ABN tools:** register free for an ABR web services GUID at https://abr.business.gov.au/Tools/WebServices, then add it to your shell profile and restart Claude Code:
+```bash
+export ABR_GUID="your-guid-here"
+```
+Without it, the ABN tools return a clear message and the skill falls back to ABN Lookup on the web.
+
+**Optional:** `NOMINATIM_EMAIL` (a contact address sent to Nominatim, per its usage policy). `OVERPASS_URLS` (comma-separated Overpass servers, if you run your own).
+
+**Fair use:** Nominatim is limited to 1 request per second and results are cached. These are free community services, so use them for one-off lookups, not bulk geocoding. For large batches, host your own Nominatim / Overpass, or use G-NAF.
+
+**Tests:** `uv run --with pytest --with "mcp>=2.3,<3" --with httpx pytest plugins/property-contacts/mcp/tests -q`
+
+Claude.ai uploads (zips) include the skill only; the local server runs in Claude Code.
+
 ## How it handles different properties
 | Property type | Who "manages" it | Typical route |
 |---|---|---|
@@ -54,6 +80,9 @@ plugins/property-contacts/
   commands/property-contacts.md
   skills/property-contact-lookup/SKILL.md
   skills/property-contact-lookup/references/report-template.md
+  .mcp.json                       # registers the local property-data server
+  mcp/property_data_server.py     # MCP server (4 read-only tools)
+  mcp/tests/test_offline.py
 examples/            # three test-run reports
 ```
 

@@ -19,7 +19,15 @@ description: "This skill should be used when the user gives a street address (or
 - **Batch:** a list or CSV of addresses. Process each one and return a combined table.
 
 ## Tools
-Use whatever web research is available: WebSearch / WebFetch, the built-in browser, or Bright Data / Firecrawl if connected. If no web tool is available, say so, return the **search plan** (below) for the user to run themselves, and don't guess.
+**Use the plugin's `property-data` MCP tools first, if they are available.** They are faster, structured and cheaper than web searching:
+| Step | Tool | Use |
+|---|---|---|
+| 1 | `normalise_address(address)` | Parsed lot/unit/level/number range, geocoder candidates with building name and coordinates, traps flagged in `notes`. If `approximate` is true, the coordinates are the suburb, not the lot. |
+| 2 | `businesses_at(lat, lon, radius_m, house_number)` | Named businesses mapped at the point. Drop or label `likely_neighbour` rows. Each result is an OSM lead, **Medium confidence at most until confirmed** on the business's own site. |
+| 2, 3 | `abn_search(name, postcode, state)` → `abn_details(abn)` | Required ABN check for every business and managing company. Use `assigned` only. If it's null, write "ambiguous, not assigned". If the result has an `error` mentioning ABR_GUID, fall back to ABN Lookup on the web and tell the user once that a free GUID would speed this up. |
+Cite each tool's `source` and `retrieved` date like any other source.
+
+Then use whatever web research is available (WebSearch / WebFetch, the built-in browser, or Bright Data / Firecrawl if connected) for everything the tools don't cover: building websites, strata registers, management companies, listings. If no web tool and no MCP tool is available, say so, return the **search plan** (below) for the user to run themselves, and don't guess.
 
 ## Method
 1. **Normalise the address.** Confirm the exact property with a map search. Note the building name, the property type (residential strata, commercial office, retail centre, industrial, mixed-use, single dwelling) and any alternative street numbers or corner addresses.
